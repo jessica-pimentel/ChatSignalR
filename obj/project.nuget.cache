@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DU4RhO3gAwc=",
+  "dgSpecHash": "Ekr5895Ytvs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\jppim\\source\\repos\\api-chat\\api-chat.csproj",
+  "projectFilePath": "C:\\Users\\jppim\\source\\repos\\ChatSignalR\\api-chat.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jppim\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\jppim\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",

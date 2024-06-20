@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jppim\\source\\repos\\api-chat\\api-chat.csproj": {}
+    "C:\\Users\\jppim\\source\\repos\\ChatSignalR\\api-chat.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jppim\\source\\repos\\api-chat\\api-chat.csproj": {
+    "C:\\Users\\jppim\\source\\repos\\ChatSignalR\\api-chat.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jppim\\source\\repos\\api-chat\\api-chat.csproj",
+        "projectUniqueName": "C:\\Users\\jppim\\source\\repos\\ChatSignalR\\api-chat.csproj",
         "projectName": "api-chat",
-        "projectPath": "C:\\Users\\jppim\\source\\repos\\api-chat\\api-chat.csproj",
+        "projectPath": "C:\\Users\\jppim\\source\\repos\\ChatSignalR\\api-chat.csproj",
         "packagesPath": "C:\\Users\\jppim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jppim\\source\\repos\\api-chat\\obj\\",
+        "outputPath": "C:\\Users\\jppim\\source\\repos\\ChatSignalR\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jppim\\AppData\\Roaming\\NuGet\\NuGet.Config",
