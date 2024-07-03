@@ -1,34 +1,51 @@
 using Api.Chat.Hubs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-
+// Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
+// Configure Swagger
+builder.Services.AddSwaggerGen();
+
+// Configure SignalR
 builder.Services.AddSignalR();
 
+builder.Services.AddControllers();
+
+// Build the application
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
+    c.RoutePrefix = string.Empty; // Makes swagger UI available at the root
+});
 
 app.UseRouting();
 
@@ -36,8 +53,8 @@ app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllers();
 
-app.MapHub<HubProvider>("/hub");
+app.MapHub<HubProvider>("/hub"); 
 
 app.Run();
