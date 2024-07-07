@@ -20,22 +20,19 @@ namespace api_chat.Controllers
         }
 
         [HttpPost("notifyCaller")]
-        public async Task<IActionResult> NotifyCaller([FromBody] dynamic data)
+        public async Task<IActionResult> NotifyCaller([FromBody] NotifyCallerRequest request)
         {
             try
             {
-                string connectionId = data.connectionId;
-                string message = data.message;
+                _logger.LogInformation("Enviando notificação para o cliente: ConnectionId = {ConnectionId}, Message = {Message}", request.ConnectionId, request.Message);
 
-                _logger.LogInformation("Enviando notificação para o cliente: ConnectionId = {ConnectionId}, Message = {Message}", connectionId, message);
-
-                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveCallerNotification", message);
+                await _hubContext.Clients.Client(request.ConnectionId).SendAsync("CallerNotification", request.Message);
 
                 return Ok(new
                 {
                     Message = "Notificação para o cliente que chamou enviada com sucesso!",
-                    NotificationType = "ReceiveCallerNotification",
-                    ConnectionId = connectionId
+                    NotificationType = "CallerNotification",
+                    ConnectionId = request.ConnectionId
                 });
             }
             catch (Exception ex)
@@ -50,20 +47,16 @@ namespace api_chat.Controllers
         {
             try
             {
-                string targetConnectionId = request.TargetConnectionId;
-                string message = request.Message;
-                string senderName = request.SenderName;
+                _logger.LogInformation("Enviando mensagem direta: TargetConnectionId = {TargetConnectionId}, Message = {Message}, SenderName = {SenderName}", request.TargetConnectionId, request.Message, request.SenderName);
 
-                _logger.LogInformation("Enviando mensagem direta: TargetConnectionId = {TargetConnectionId}, Message = {Message}, SenderName = {SenderName}", targetConnectionId, message, senderName);
-
-                await _hubContext.Clients.Client(targetConnectionId).SendAsync("ReceiveDirectMessage", senderName, message);
+                await _hubContext.Clients.Client(request.TargetConnectionId).SendAsync("DirectMessage", request.SenderName, request.Message);
 
                 return Ok(new
                 {
                     Message = "Mensagem enviada com sucesso!",
-                    TargetConnectionId = targetConnectionId,
-                    SentMessage = message,
-                    SenderName = senderName
+                    TargetConnectionId = request.TargetConnectionId,
+                    SentMessage = request.Message,
+                    SenderName = request.SenderName
                 });
             }
             catch (Exception ex)
@@ -74,22 +67,19 @@ namespace api_chat.Controllers
         }
 
         [HttpPost("sendMessage")]
-        public async Task<IActionResult> SendMessage([FromBody] dynamic data)
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest request)
         {
             try
             {
-                string user = data.user;
-                string message = data.message;
+                _logger.LogInformation("Enviando mensagem: User = {User}, Message = {Message}", request.User, request.Message);
 
-                _logger.LogInformation("Enviando mensagem: User = {User}, Message = {Message}", user, message);
-
-                await _hubContext.Clients.All.SendAsync("ReceiveMessage", user, message);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", request.User, request.Message);
 
                 return Ok(new
                 {
                     Message = "Mensagem enviada com sucesso!",
-                    User = user,
-                    SentMessage = message
+                    User = request.User,
+                    SentMessage = request.Message
                 });
             }
             catch (Exception ex)
@@ -100,22 +90,19 @@ namespace api_chat.Controllers
         }
 
         [HttpPost("uploadFile")]
-        public async Task<IActionResult> UploadFile([FromBody] dynamic data)
+        public async Task<IActionResult> UploadFile([FromBody] UploadFileRequest request)
         {
             try
             {
-                string user = data.user;
-                string fileName = data.fileName;
+                _logger.LogInformation("Enviando arquivo: User = {User}, FileName = {FileName}", request.User, request.FileName);
 
-                _logger.LogInformation("Enviando arquivo: User = {User}, FileName = {FileName}", user, fileName);
-
-                await _hubContext.Clients.All.SendAsync("ReceiveFile", user, fileName);
+                await _hubContext.Clients.All.SendAsync("ReceiveFile", request.User, request.FileName);
 
                 return Ok(new
                 {
                     Message = "Arquivo enviado com sucesso!",
-                    User = user,
-                    FileName = fileName
+                    User = request.User,
+                    FileName = request.FileName
                 });
             }
             catch (Exception ex)
@@ -126,20 +113,18 @@ namespace api_chat.Controllers
         }
 
         [HttpPost("notifySaleMade")]
-        public async Task<IActionResult> NotifySaleMade([FromBody] dynamic data)
+        public async Task<IActionResult> NotifySaleMade([FromBody] NotifySaleMadeRequest request)
         {
             try
             {
-                string message = data.message;
+                _logger.LogInformation("Notificando venda realizada: Message = {Message}", request.Message);
 
-                _logger.LogInformation("Notificando venda realizada: Message = {Message}", message);
-
-                await _hubContext.Clients.All.SendAsync("SaleMade", message);
+                await _hubContext.Clients.All.SendAsync("SaleMade", request.Message);
 
                 return Ok(new
                 {
                     Message = "Notificação de venda feita enviada com sucesso!",
-                    SaleMessage = message
+                    SaleMessage = request.Message
                 });
             }
             catch (Exception ex)
@@ -150,20 +135,18 @@ namespace api_chat.Controllers
         }
 
         [HttpPost("notifySystemInstability")]
-        public async Task<IActionResult> NotifySystemInstability([FromBody] dynamic data)
+        public async Task<IActionResult> NotifySystemInstability([FromBody] NotifySystemInstabilityRequest request)
         {
             try
             {
-                string message = data.message;
+                _logger.LogInformation("Notificando instabilidade do sistema: Message = {Message}", request.Message);
 
-                _logger.LogInformation("Notificando instabilidade do sistema: Message = {Message}", message);
-
-                await _hubContext.Clients.All.SendAsync("SystemInstability", message);
+                await _hubContext.Clients.All.SendAsync("SystemInstability", request.Message);
 
                 return Ok(new
                 {
                     Message = "Notificação de instabilidade do sistema enviada com sucesso!",
-                    InstabilityMessage = message
+                    InstabilityMessage = request.Message
                 });
             }
             catch (Exception ex)
