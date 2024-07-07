@@ -90,19 +90,25 @@ namespace api_chat.Controllers
         }
 
         [HttpPost("uploadFile")]
-        public async Task<IActionResult> UploadFile([FromBody] UploadFileRequest request)
+        public async Task<IActionResult> UploadFile([FromForm] UploadFileRequest request)
         {
             try
             {
-                _logger.LogInformation("Enviando arquivo: User = {User}, FileName = {FileName}", request.User, request.FileName);
+                if (request.File == null)
+                {
+                    return BadRequest("No file uploaded");
+                }
 
-                await _hubContext.Clients.All.SendAsync("ReceiveFile", request.User, request.FileName);
+                _logger.LogInformation("Recebido arquivo: User = {User}, FileName = {FileName}", request.User, request.File.FileName);
+
+                // Apenas simula a recepção do arquivo sem salvá-lo
+                await _hubContext.Clients.All.SendAsync("ReceiveFile", request.User, request.File.FileName);
 
                 return Ok(new
                 {
                     Message = "Arquivo enviado com sucesso!",
                     User = request.User,
-                    FileName = request.FileName
+                    FileName = request.File.FileName
                 });
             }
             catch (Exception ex)

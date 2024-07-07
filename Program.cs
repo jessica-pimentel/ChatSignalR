@@ -24,6 +24,11 @@ builder.Services.AddSignalR();
 
 builder.Services.AddControllers();
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100 MB
+});
+
 // Build the application
 var app = builder.Build();
 

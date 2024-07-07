@@ -3,6 +3,6 @@
     public class UploadFileRequest
     {
         public string User { get; set; }
-        public string FileName { get; set; }
+        public IFormFile File { get; set; }
     }
 }
