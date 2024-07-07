@@ -7,11 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://127.0.0.1:5500") // Adicione a origem do seu cliente aqui
+              .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowCredentials(); // Permite credenciais, como cookies e cabeçalhos de autenticação
     });
 });
 
@@ -49,7 +50,7 @@ app.UseSwaggerUI(c =>
 
 app.UseRouting();
 
-app.UseCors("AllowAll");
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 
