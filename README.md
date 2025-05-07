@@ -1,4 +1,4 @@
-# Chat Bot com SignalR
+# ChatBot com SignalR
 Este projeto é um chat bot desenvolvido em C# utilizando a biblioteca SignalR para facilitar a comunicação em tempo real. 
 O bot foi projetado para responder automaticamente às perguntas dos usuários em um ambiente de chat, proporcionando uma interação dinâmica e responsiva.
 
